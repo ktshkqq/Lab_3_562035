@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://ck3k4x0aj8ni7"]
+
+[ext_resource type="Script" uid="uid://c24a7vyc42aoh" path="res://Components/HealthComponent.cs" id="1_r2ssn"]
+[ext_resource type="Script" uid="uid://cep7pcpuuc4f3" path="res://Components/VisibilityComponent.cs" id="2_tnwgw"]
+[ext_resource type="Script" uid="uid://bekqxgmlwr4al" path="res://Components/ShootComponent.cs" id="3_84ahb"]
+[ext_resource type="PackedScene" uid="uid://c1nv3xhkmbvyx" path="res://Scenes/Bullet/BulletExplosion.tscn" id="4_r2ssn"]
+[ext_resource type="Script" uid="uid://cvx3c8ywh4pnp" path="res://Components/MetalComponent.cs" id="5_giqmo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xyfrd"]
+albedo_color = Color(0, 0.8296893, 0.8166643, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_m1htj"]
+material = SubResource("StandardMaterial3D_xyfrd")
+top_radius = 0.3246094
+bottom_radius = 0.62460935
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7fd37"]
+radius = 0.7421875
+height = 2.6689453
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tpt2e"]
+height = 1.4355469
+radius = 6.991211
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tpt2e"]
+top_radius = 0.13994141
+bottom_radius = 0.23994142
+height = 1.1796875
+
+[node name="TowerExplosion" type="CharacterBody3D" unique_id=1648922939 groups=["Tower"]]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1026800164]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.59960544, 0)
+mesh = SubResource("CylinderMesh_m1htj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=565707289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_7fd37")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=62816424]
+script = ExtResource("1_r2ssn")
+metadata/_custom_type_script = "uid://c24a7vyc42aoh"
+
+[node name="VisibilityComponent" type="Area3D" parent="." unique_id=1853176225 node_paths=PackedStringArray("shootComponent")]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("2_tnwgw")
+shootComponent = NodePath("../ShootComponent")
+metadata/_custom_type_script = "uid://cep7pcpuuc4f3"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisibilityComponent" unique_id=2002577637]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0.7, 0)
+shape = SubResource("CylinderShape3D_tpt2e")
+debug_color = Color(1, 0.01460956, 0.0340244, 0.41960785)
+
+[node name="ShootComponent" type="Node3D" parent="." unique_id=511582073]
+script = ExtResource("3_84ahb")
+BulletScene = ExtResource("4_r2ssn")
+BulletSpeed = 10.0
+metadata/_custom_type_script = "uid://bekqxgmlwr4al"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ShootComponent" unique_id=77530503]
+transform = Transform3D(-1.0000001, 8.7422784e-08, 3.821371e-15, 0, -4.3711392e-08, 1, 8.7422784e-08, 1.0000001, 4.371139e-08, 0, 1.7, 0)
+mesh = SubResource("CylinderMesh_tpt2e")
+
+[node name="MetalComponent" type="Node" parent="." unique_id=1767236684]
+script = ExtResource("5_giqmo")
+Cost = 10
+Reward = 20
+metadata/_custom_type_script = "uid://cvx3c8ywh4pnp"

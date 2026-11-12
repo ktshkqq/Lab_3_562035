@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://c1nv3xhkmbvyx"]
+
+[ext_resource type="Script" uid="uid://bfbj4meths21r" path="res://Scripts/BulletExplosion.cs" id="1_xv06u"]
+[ext_resource type="Script" uid="uid://5uwtl3s1ow1r" path="res://Components/ExplosionComponent.cs" id="2_xv06u"]
+[ext_resource type="PackedScene" uid="uid://blfq4o06ddin0" path="res://Scenes/ExplosionEffect.tscn" id="3_w15a5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rwhe3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8o88"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(1.199055, 2.7794645, 2.4528468, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_rwhe3"]
+material = SubResource("StandardMaterial3D_q8o88")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_b41iy"]
+
+[node name="BulletExplosion" type="Area3D" unique_id=2032894737]
+script = ExtResource("1_xv06u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1841316127]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+shape = SubResource("SphereShape3D_rwhe3")
+debug_color = Color(0, 0.6003054, 0.7019654, 0.41960785)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=127735905]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("SphereMesh_rwhe3")
+
+[node name="ExplosionComponent" type="Area3D" parent="." unique_id=911812750]
+script = ExtResource("2_xv06u")
+ExplosionRadius = 10.0
+UseFalloff = false
+ExplosionEffect = ExtResource("3_w15a5")
+TargetGroups = PackedStringArray("Enemy")
+metadata/_custom_type_script = "uid://5uwtl3s1ow1r"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionComponent" unique_id=907428135]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0, 0)
+shape = SubResource("SphereShape3D_b41iy")
+debug_color = Color(0.9318337, 2.627939e-05, 0.6532077, 0.41960785)
+
+[connection signal="body_entered" from="." to="." method="OnBulletBodyEntered"]

@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://doqo7oiby3ssa"]
+
+[ext_resource type="Script" uid="uid://brwfp0ull00qj" path="res://Scripts/GameManager.cs" id="1_7x21m"]
+[ext_resource type="PackedScene" uid="uid://d2n1ffb5ugvai" path="res://Scenes/Player.tscn" id="2_0tirt"]
+[ext_resource type="PackedScene" uid="uid://gxggwu4un1s5" path="res://Scenes/Enemy/EnemyDoT.tscn" id="3_7x21m"]
+[ext_resource type="PackedScene" uid="uid://caiui13v8yfeh" path="res://Scenes/Core.tscn" id="3_buqqs"]
+[ext_resource type="PackedScene" uid="uid://b7sccct2dut87" path="res://Scenes/Enemy/Crawler.tscn" id="3_fs7ap"]
+[ext_resource type="PackedScene" uid="uid://disixjaix0rp" path="res://Scenes/Enemy/Enemy.tscn" id="4_7hrwt"]
+
+[sub_resource type="Environment" id="Environment_rwhe3"]
+background_color = Color(0.62677723, 0.8182439, 0.8981145, 1)
+tonemap_mode = 1
+tonemap_exposure = 0.82
+ssr_enabled = true
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b41iy"]
+size = Vector3(14.681274, 0.001, 14.838867)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpr8r"]
+albedo_color = Color(0.7466946, 0.90647054, 0.97112924, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rwhe3"]
+material = SubResource("StandardMaterial3D_kpr8r")
+
+[node name="Field" type="Node3D" unique_id=1758418553]
+script = ExtResource("1_7x21m")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1714462447]
+environment = SubResource("Environment_rwhe3")
+
+[node name="Floor" type="Node3D" parent="." unique_id=1959488062]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 1, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor" unique_id=331394236]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D" unique_id=1807087180]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("BoxShape3D_b41iy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1122633182]
+transform = Transform3D(11.2, 0, 0, 0, 1, 0, 0, 0, 9.8, 0, 0, 0)
+mesh = SubResource("PlaneMesh_rwhe3")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=639854264]
+transform = Transform3D(0.9999619, -0.008725544, 6.947929e-06, 0, 0.0007962743, 0.9999997, -0.008725547, -0.9999616, 0.00079624396, 1.1347489, 48.1456, 1.3409916)
+size = 30.0
+
+[node name="Core" parent="." unique_id=2012358615 instance=ExtResource("3_buqqs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10792279, 0.002002716, 24.417152)
+
+[node name="Player" parent="." unique_id=1645548610 instance=ExtResource("2_0tirt")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.27206516, 1.5019989, 10.861599)
+
+[node name="Light" type="Node" parent="." unique_id=2145993072]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Light" unique_id=617679819]
+transform = Transform3D(1, 0, 0, 0, 0.22569296, 0.97419846, 0, -0.97419846, 0.22569296, 0, 19.586521, 0)
+
+[node name="Enemy" type="Node" parent="." unique_id=231045192]
+
+[node name="StandartEnemyTower" type="Node" parent="Enemy" unique_id=985820894]
+
+[node name="Enemy" parent="Enemy/StandartEnemyTower" unique_id=2068414404 instance=ExtResource("4_7hrwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.38731, 0.0020008087, -19.951939)
+
+[node name="Enemy2" parent="Enemy/StandartEnemyTower" unique_id=928712804 instance=ExtResource("4_7hrwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.025516152, 0.002002716, -20.144287)
+
+[node name="Enemy3" parent="Enemy/StandartEnemyTower" unique_id=943464237 instance=ExtResource("4_7hrwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.212677, 0.0020008087, -20.886326)
+
+[node name="DoTEnemyTower" type="Node" parent="Enemy" unique_id=1022160220]
+
+[node name="EnemyDoT" parent="Enemy/DoTEnemyTower" unique_id=2133920286 instance=ExtResource("3_7x21m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.21138, 0.40239537, -12.477043)
+
+[node name="EnemyDoT2" parent="Enemy/DoTEnemyTower" unique_id=468280904 instance=ExtResource("3_7x21m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.8713255, 0.40239537, -10.952206)
+
+[node name="EnemyDoT3" parent="Enemy/DoTEnemyTower" unique_id=258395311 instance=ExtResource("3_7x21m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.772194, 0.40239537, -12.408436)
+
+[node name="EnemyDoT4" parent="Enemy/DoTEnemyTower" unique_id=1800580598 instance=ExtResource("3_7x21m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.064564, 0.40239537, -13.55257)
+
+[node name="Zombie" type="Node" parent="Enemy" unique_id=231752117]
+
+[node name="Zombie" parent="Enemy/Zombie" unique_id=1544108572 instance=ExtResource("3_fs7ap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.13284, 2.0020027, -30.949734)
+
+[node name="Zombie2" parent="Enemy/Zombie" unique_id=788136388 instance=ExtResource("3_fs7ap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.42672, 2.001999, -29.887619)
+
+[node name="Zombie4" parent="Enemy/Zombie" unique_id=258537125 instance=ExtResource("3_fs7ap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.689396, 2.001999, -2.9711456)
+
+[node name="Zombie3" parent="Enemy/Zombie" unique_id=1132624210 instance=ExtResource("3_fs7ap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.104816, 2.0020027, -4.2066)

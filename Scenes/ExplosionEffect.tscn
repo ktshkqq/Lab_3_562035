@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://blfq4o06ddin0"]
+
+[ext_resource type="Script" uid="uid://g8ivsob4mras" path="res://Scripts/ExplosionFlash.cs" id="1_efrxf"]
+
+[node name="ExplosionEffect" type="Node3D" unique_id=394586354]
+script = ExtResource("1_efrxf")
+Radius = 10.0
+Duration = 0.5
+FlashColor = Color(0, 0.8333766, 0.6121018, 1)

@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://dk5mt1w7huvjw"]
+
+[ext_resource type="Script" uid="uid://c7tnsfc3k4xcq" path="res://Scripts/BulletEnemy.cs" id="1_jsppk"]
+[ext_resource type="Script" uid="uid://bd6sluda3505w" path="res://Components/DamagingComponent.cs" id="2_afucr"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_b41iy"]
+radius = 0.021484375
+height = 0.10253906
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nr8tw"]
+albedo_color = Color(1.5157021, 0.28961742, 0, 1)
+emission_enabled = true
+emission = Color(2.5025156, 0.36352846, 0.34451526, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rwhe3"]
+material = SubResource("StandardMaterial3D_nr8tw")
+radius = 0.083496094
+height = 0.6171875
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rwhe3"]
+radius = 0.15283203
+height = 0.7529297
+
+[node name="BulletEnemy" type="Area3D" unique_id=2032894737]
+script = ExtResource("1_jsppk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1667673830]
+transform = Transform3D(7, 0, 0, 0, -3.059797e-07, 7, 0, -7, -3.059797e-07, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_b41iy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1585336515]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_rwhe3")
+
+[node name="DamagingComponent" type="Area3D" parent="." unique_id=1062194380]
+script = ExtResource("2_afucr")
+TargetGroups = PackedStringArray("Tower", "Core", "Player")
+metadata/_custom_type_script = "uid://bd6sluda3505w"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamagingComponent" unique_id=262628813]
+transform = Transform3D(1, 0, 0, 0, -0.011528281, 0.99993354, 0, -0.99993354, -0.011528281, 0, -0.01586914, 0)
+shape = SubResource("CapsuleShape3D_rwhe3")
+
+[connection signal="body_entered" from="." to="." method="OnBulletBodyEntered"]

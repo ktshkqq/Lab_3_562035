@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://caiui13v8yfeh"]
+
+[ext_resource type="Script" uid="uid://c24a7vyc42aoh" path="res://Components/HealthComponent.cs" id="1_bow1k"]
+[ext_resource type="Script" uid="uid://fml677ywmve2" path="res://Scripts/Core.cs" id="1_ec8af"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b41iy"]
+albedo_color = Color(1, 0.8594782, 0.8713345, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rwhe3"]
+material = SubResource("StandardMaterial3D_b41iy")
+size = Vector3(5, 5, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rwhe3"]
+
+[node name="Node3D" type="StaticBody3D" unique_id=2012358615 groups=["Core"]]
+script = ExtResource("1_ec8af")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=778513283]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 5, 0)
+mesh = SubResource("BoxMesh_rwhe3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=751195594]
+transform = Transform3D(5.5, 0, 0, 0, 11, 0, 0, 0, 5.5, 0, 5, 0)
+shape = SubResource("BoxShape3D_rwhe3")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1829021775]
+script = ExtResource("1_bow1k")
+MaxHealth = 500.0
+metadata/_custom_type_script = "uid://c24a7vyc42aoh"

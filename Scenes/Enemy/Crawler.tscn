@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://b7sccct2dut87"]
+
+[ext_resource type="Script" uid="uid://bd6sluda3505w" path="res://Components/DamagingComponent.cs" id="1_uto40"]
+[ext_resource type="Texture2D" uid="uid://cqqe78dwhimev" path="res://ModelAndSprites/Zed_1.png" id="1_ybda7"]
+[ext_resource type="ArrayMesh" uid="uid://b0jh20bbl6ufx" path="res://ModelAndSprites/Zed_1.obj" id="2_uto40"]
+[ext_resource type="Script" uid="uid://c24a7vyc42aoh" path="res://Components/HealthComponent.cs" id="4_bkkjc"]
+[ext_resource type="Script" uid="uid://b610a2spg84fa" path="res://Components/MoveComponent.cs" id="5_os17c"]
+[ext_resource type="Script" uid="uid://cep7pcpuuc4f3" path="res://Components/VisibilityComponent.cs" id="7_7725j"]
+[ext_resource type="Script" uid="uid://cvx3c8ywh4pnp" path="res://Components/MetalComponent.cs" id="7_ka7lq"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yeytu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kiopy"]
+albedo_texture = ExtResource("1_ybda7")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_opcfq"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rwhe3"]
+
+[node name="Zombie" type="CharacterBody3D" unique_id=1544108572 groups=["Enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1615800925]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("CylinderShape3D_yeytu")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=402457287]
+transform = Transform3D(0.822, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_kiopy")
+mesh = ExtResource("2_uto40")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1800733929]
+script = ExtResource("4_bkkjc")
+metadata/_custom_type_script = "uid://c24a7vyc42aoh"
+
+[node name="MoveComponent" type="Node" parent="." unique_id=957983858]
+script = ExtResource("5_os17c")
+Speed = 5.0
+StopRadius = 0.0
+metadata/_custom_type_script = "uid://b610a2spg84fa"
+
+[node name="DamagingComponent" type="Area3D" parent="." unique_id=1276196824]
+script = ExtResource("1_uto40")
+TargetGroups = PackedStringArray("Tower", "Core", "Player")
+DestroyAfterHit = false
+DamageInterval = 1.0
+metadata/_custom_type_script = "uid://bd6sluda3505w"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamagingComponent" unique_id=461093736]
+transform = Transform3D(5, 0, 0, 0, 2, 0, 0, 0, 5, 0, 1.0000001, 0)
+shape = SubResource("CylinderShape3D_opcfq")
+debug_color = Color(0, 0.6401823, 0.3583895, 0.41960785)
+
+[node name="VisibilityComponent" type="Area3D" parent="." unique_id=1340358144 node_paths=PackedStringArray("moveComponent")]
+script = ExtResource("7_7725j")
+moveComponent = NodePath("../MoveComponent")
+TargetGroups = PackedStringArray("Tower", "Core", "Player")
+metadata/_custom_type_script = "uid://cep7pcpuuc4f3"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisibilityComponent" unique_id=1111149154]
+transform = Transform3D(50, 0, 0, 0, 2, 0, 0, 0, 50, 0, 0, 0)
+shape = SubResource("CylinderShape3D_rwhe3")
+
+[node name="MetalComponent" type="Node" parent="." unique_id=1964802563]
+script = ExtResource("7_ka7lq")
+Cost = 10
+Reward = 20
+metadata/_custom_type_script = "uid://cvx3c8ywh4pnp"
