@@ -28,27 +28,27 @@
 
 ```
 res://
-├── Components/                  # Переиспользуемые компоненты (логика)
+├── Components/                  # Переиспользуемые компоненты 
 │   ├── HealthComponent.cs       # здоровье, смерть, сигнал Died
 │   ├── MoveComponent.cs         # движение к цели
 │   ├── ShootComponent.cs        # стрельба по цели
 │   ├── VisibilityComponent.cs   # поиск цели
 │   ├── DamagingComponent.cs     # базовый компонент урона
-│   ├── DoTComponent.cs          # урон со временем (наследник DamagingComponent)
-│   ├── ExplosionComponent.cs    # урон по площади (наследник DamagingComponent)
+│   ├── DoTComponent.cs          # урон со временем 
+│   ├── ExplosionComponent.cs    # урон по площади 
 │   └── MetalComponent.cs        # цена постройки и награда за уничтожение
 ├── Scripts/                     # Скрипты корневых узлов сцен
 │   ├── GameManager.cs           # экономика металла, интерфейс, награды
 │   ├── Player.cs                # игрок: движение, стрельба, постановка башен
 │   ├── Core.cs                  # ядро: конец игры при уничтожении
-│   ├── Crawler.cs               # враг-краулер (логика в компонентах)
-│   ├── Bullet.cs                # базовая пуля (только полёт)
+│   ├── Crawler.cs               # враг-краулер 
+│   ├── Bullet.cs                # базовая пуля 
 │   ├── BulletEnemy.cs           # пуля врага
 │   ├── BulletEnemyDoT.cs        # пуля врага с эффектом DoT
 │   ├── BulletExplosion.cs       # взрывная пуля
 │   └── ExplosionFlash.cs        # визуальный эффект взрыва
 ├── Scenes/
-│   ├── GameField.tscn           # основная игровая сцена (арена)
+│   ├── GameField.tscn           # основная игровая сцена 
 │   ├── Player.tscn              # игрок
 │   ├── Core.tscn                # ядро
 │   ├── Tower.tscn               # обычная башня игрока
@@ -62,14 +62,14 @@ res://
 │   └── Enemy/
 │       ├── Enemy.tscn           # обычная вражеская башня
 │       ├── EnemyDoT.tscn        # вражеская башня с уроном со временем
-│       └── Crawler.tscn         # враг-краулер (бьёт при контакте)
+│       └── Crawler.tscn         # враг
 ├── icon.svg
 └── README.md
 ```
 
 ## Структура сцен
 
-### GameField.tscn (игровое поле)
+## GameField.tscn (игровое поле)
 
 Корневой узел `Field` (`Node3D`) со скриптом **GameManager**.
 
@@ -89,7 +89,7 @@ Field (Node3D, GameManager.cs)
     └── Zombie               → 4 × Crawler.tscn
 ```
 
-### Player.tscn
+## Player.tscn
 
 ```
 Player (CharacterBody3D, Player.cs, группа Player)
@@ -99,7 +99,7 @@ Player (CharacterBody3D, Player.cs, группа Player)
 ```
 Экспортируемые параметры: `BulletScene = Bullet.tscn`, `TowerScenes = [Tower, TowerExplosion]`.
 
-### Core.tscn
+## Core.tscn
 
 ```
 Core (StaticBody3D, Core.cs, группа Core)
@@ -108,7 +108,7 @@ Core (StaticBody3D, Core.cs, группа Core)
 └── HealthComponent                 # 500 HP
 ```
 
-### Tower.tscn и TowerExplosion.tscn (башни игрока)
+## Tower.tscn и TowerExplosion.tscn (башни игрока)
 
 Обе сцены устроены одинаково и различаются только сценой пули.
 
@@ -124,7 +124,7 @@ Tower / TowerExplosion (CharacterBody3D, группа Tower)
 └── MetalComponent                  # Cost = 10, Reward = 20
 ```
 
-### Enemy.tscn и EnemyDoT.tscn (вражеские башни)
+## Enemy.tscn и EnemyDoT.tscn (вражеские башни)
 
 ```
 Enemy / EnemyDoT (CharacterBody3D, группа Enemy)
@@ -139,7 +139,7 @@ Enemy / EnemyDoT (CharacterBody3D, группа Enemy)
 └── MetalComponent                  # Cost = 10, Reward = 20
 ```
 
-### Crawler.tscn (враг-краулер)
+## Crawler.tscn (враг-краулер)
 
 ```
 Zombie (CharacterBody3D, группа Enemy)
@@ -157,7 +157,7 @@ Zombie (CharacterBody3D, группа Enemy)
 ```
 Краулер не стреляет: он идёт к ближайшей цели и наносит ей урон при контакте.
 
-### Сцены пуль
+## Сцены пуль
 
 Каждая пуля — `Area3D` со скриптом (наследник `Bullet`), мешем, коллизией и
 компонентом урона. Различаются они компонентом урона и целями.
@@ -169,12 +169,12 @@ Zombie (CharacterBody3D, группа Enemy)
 | `BulletEnemyDoT.tscn` | `BulletEnemyDoT` | `DoTComponent` | Tower, Core, Player | `TickDamage = 8`, `TickInterval = 0.5` |
 | `BulletExplosion.tscn` | `BulletExplosion` | `ExplosionComponent` | Enemy | `ExplosionRadius = 10`, без затухания, эффект `ExplosionEffect.tscn` |
 
-### ExplosionEffect.tscn
+## ExplosionEffect.tscn
 
 Один узел `Node3D` со скриптом `ExplosionFlash`. Меш и материал создаются из кода,
 поэтому дополнительных узлов не нужно.
 
-### Группы
+## Группы
 
 | Группа | Кто состоит |
 |---|---|
@@ -183,13 +183,9 @@ Zombie (CharacterBody3D, группа Enemy)
 | `Enemy` | вражеские башни и краулеры |
 | `Core` | ядро |
 
-Кого атакует каждая сторона:
-- сторона игрока (игрок, его башни, их пули) видит и бьёт группу **Enemy**;
-- сторона врагов (вражеские башни, краулеры, их пули) видит и бьёт группы **Tower**, **Core**, **Player**.
-
 ## Компоненты
 
-Все компоненты помечены `[GlobalClass]` (доступны в меню «Добавить узел»),
+Все компоненты помечены `[GlobalClass]`,
 классы объявлены `partial`, настраиваемые параметры вынесены в `[Export]`.
 
 | Компонент | Базовый тип | Назначение |
@@ -215,7 +211,7 @@ Zombie (CharacterBody3D, группа Enemy)
 
 ## Иерархия компонентов
 
-### Наследование классов
+## Наследование классов
 
 ```mermaid
 classDiagram
@@ -243,8 +239,7 @@ classDiagram
     CharacterBody3D <|-- Crawler
     StaticBody3D <|-- Core
 ```
-
-### Ветка компонентов урона
+## Ветка компонентов урона
 
 ```mermaid
 classDiagram
@@ -279,7 +274,7 @@ classDiagram
     DamagingComponent <|-- ExplosionComponent
 ```
 
-### Взаимодействие компонентов
+## Взаимодействие компонентов
 
 ```mermaid
 flowchart LR
@@ -292,7 +287,7 @@ flowchart LR
     H -- удаление узла --> G[GameManager: награда металлом]
 ```
 
-### Состав сцен по компонентам
+## Состав сцен по компонентам
 
 | Сцена | Health | Move | Shoot | Visibility | Damaging | Metal |
 |---|---|---|---|---|---|---|
@@ -304,11 +299,10 @@ flowchart LR
 | EnemyDoT | 50 | Speed 1 | BulletEnemyDoT | Core, Tower, Player | – | 10 / 20 |
 | Crawler | 100 | Speed 5 | – | Tower, Core, Player | контакт | 10 / 20 |
 
-В колонке Metal указано `Cost / Reward`.
 
-## Новая логика (по сравнению с Практикой 3)
+## Логика
 
-### 1. Компоненты урона
+## 1. Компоненты урона
 Раньше урон наносила сама пуля (`Bullet.cs`). Теперь вся логика урона вынесена в
 компонент **DamagingComponent**, а пуля только летит. Один и тот же компонент
 используется на пулях и на враге-краулере. От него наследуются два новых
@@ -316,29 +310,29 @@ flowchart LR
 - **DoTComponent**: урон со временем (горение, яд);
 - **ExplosionComponent**: урон по площади с визуальным эффектом.
 
-### 2. Игрок
+## 2. Игрок
 Новая сущность `Player`: ходьба на WASD, поворот к курсору (луч из камеры через
 курсор пересекается с плоскостью на высоте игрока), стрельба по ЛКМ или пробелу,
 собственное здоровье. Игрок состоит в группе `Player`, поэтому враги считают его целью.
 
-### 3. Постановка башен
+## 3. Постановка башен
 Интерактивная механика: `E` создаёт «призрачную» башню перед игроком. Призрак
 строится из сцены башни: копируются только меши с их позициями и заменяется материал
 на полупрозрачный. Узлы коллизий, скрипты и компоненты в призрак не попадают, поэтому
 он не стреляет и не сталкивается. Тип башни выбирается клавишами, повторное `E`
 ставит настоящую башню.
 
-### 4. Ядро и конец игры
+## 4. Ядро и конец игры
 Ядро (`Core`) состоит в группе `Core` и имеет `HealthComponent`. При его гибели
 срабатывает сигнал `Died`: игра ставится на паузу и показывается экран «GAME OVER» с
 кнопкой перезапуска.
 
-### 5. Враг-краулер
+## 5. Враг-краулер
 Краулер ходит к ближайшей цели (`VisibilityComponent` + `MoveComponent`) и наносит
 урон при контакте через `DamagingComponent` с `DamageInterval = 1`: урон
 повторяется каждую секунду, пока цель находится в его зоне.
 
-### 6. Система металла (дополнительное задание)
+## 6. Система металла (дополнительное задание)
 - **MetalComponent** хранит в сцене объекта цену постройки (`Cost`) и награду (`Reward`).
 - **GameManager**, прикреплённый к корню игрового поля, хранит запас металла и показывает
   его на экране. Он подписан на удаление узлов со сцены: когда удаляется уничтоженный
@@ -348,14 +342,12 @@ flowchart LR
   башня не ставится, счётчик вспыхивает красным, появляется надпись
   «Недостаточно металла!», а призрак окрашивается в красный.
 
-### 7. Изменения в существующих компонентах
+## 7. Изменения в существующих компонентах
 - **HealthComponent**: добавлен сигнал `Died` и защита от повторной смерти.
 - **VisibilityComponent**: цели задаются списком `TargetGroups` вместо жёстко заданных
   групп; удалённые объекты убираются из списка целей.
 - **MoveComponent**: проверка, что цель не удалена, чтобы не обращаться к освобождённому объекту.
 - **ShootComponent**: компонент урона в пуле ищется по типу, а не по имени узла, поэтому
   работают любые наследники `DamagingComponent`.
-
-## Автор
 
 Осокина Екатерина Алексеевна 562035
